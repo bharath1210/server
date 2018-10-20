@@ -44,10 +44,18 @@ router.post('/login', (req, res, next) => {
             if (!token) {
                 throw new Error('invalid token')
             }
-            res.status(200).json({token:token})
+            return token;
+        })
+        .then((token) => {
+            console.log(document.emailVerified)
+            if (!document.emailVerified) {
+                throw new Error('verify email')
+            }
+            res.status(200).json({ token: token })
+
         })
         .catch((error) => {
-            res.status(400).json({error: error.message})
+            res.status(400).json({ error: error.message })
         })
 })
 module.exports = router;
